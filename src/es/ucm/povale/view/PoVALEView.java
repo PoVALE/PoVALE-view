@@ -8,18 +8,24 @@ package es.ucm.povale.view;
 import es.ucm.povale.assertion.Assertion;
 import es.ucm.povale.entity.IntegerEntity;
 import es.ucm.povale.environment.Environment;
+import es.ucm.povale.parameter.FileEditor;
+import es.ucm.povale.parameter.ParameterEditor;
+import es.ucm.povale.parameter.StringEditor;
 import es.ucm.povale.plugin.Import;
 import es.ucm.povale.reader.Var;
 import es.ucm.povale.reader.XMLParser;
 import static java.util.Collections.list;
+import java.util.HashMap;
 import java.util.List;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -33,7 +39,7 @@ public class PoVALEView extends Application {
     /**
      * @param args the command line arguments
      */
-    entityMap.put("variable", this::createEntity);
+   
     public static void main(String[] args) {
         String XMLFile = "src/main/resources/existPrueba1.xml";
         XMLParser parser = new XMLParser();
@@ -73,21 +79,31 @@ public class PoVALEView extends Application {
         stage.setScene(scene);
         stage.show();
         */
+        HashMap paramEditorMap = new HashMap();
+        paramEditorMap.put("String",new StringEditor());
+        paramEditorMap.put("File",new FileEditor(stage));
+        
         stage.setTitle("PoVALE's Interface");
-        BorderPane bp = new BorderPane();
-        bp.setPrefSize(200, 200);
+        BorderPane borderPane = new BorderPane();
+        borderPane.setPrefSize(200, 200);
         
         
-        GridPane gp = new GridPane();
-        for (Var v: myVars){
-            gp.
-            //crearlabel con nombre
-                    //hashmap
-            ParameterEditor p = new ParameterEditor<v.>
-            //crear un parameterEditor()
+        GridPane gridPane = new GridPane();
+        for (int i=0;i<myVars.size();i++){
+            
+            /*
+            VBox vBox = new VBox();
+            vBox.getChildren().add(new Label(myVars.get(i).getName()));
+            vBox.getChildren().add(new Label(myVars.get(i).getDescription()));
+            */
+            
+            gridPane.add(new Label(myVars.get(i).getName()), i, 1);
+            ParameterEditor p = (ParameterEditor) paramEditorMap.get(myVars.get(i).getType());
+            gridPane.add(p.getPane(), i, 2);  // column=3 row=1
+            
         }
-        bp.getChildren().add(gp);
-        stage.setScene(new Scene(bp, 200, 200));
+        borderPane.getChildren().add(gridPane);
+        stage.setScene(new Scene(borderPane, 200, 200));
         //leer de una lista la lista de variables e ir metiendolas en la pantalla
     }
     
