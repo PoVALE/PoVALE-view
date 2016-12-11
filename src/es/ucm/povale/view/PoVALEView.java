@@ -18,9 +18,11 @@ import static java.util.Collections.list;
 import java.util.HashMap;
 import java.util.List;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
@@ -41,13 +43,19 @@ public class PoVALEView extends Application {
      */
    
     public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
         String XMLFile = "src/main/resources/existPrueba1.xml";
         XMLParser parser = new XMLParser();
         parser.parseXMLFile(XMLFile);
+        List<Var> myVars = parser.getMyVars();
 
         Environment env = new Environment();
         
-         List<String> plugins = parser.getMyPlugins();
+        List<String> plugins = parser.getMyPlugins();
         
         for (String a : plugins){
             Import plugin = new Import(a);
@@ -56,8 +64,38 @@ public class PoVALEView extends Application {
         env.getValues().put("x", new IntegerEntity(3));
 
         List<Assertion> assertions = parser.getMyAsserts();
-        for (Assertion a : assertions) {
+        
+    
+        HashMap<String,ParameterEditor> paramEditorMap = new HashMap<>();
+        paramEditorMap.put("String",new StringEditor());
+        paramEditorMap.put("File",new FileEditor(stage));
+        
+        stage.setTitle("PoVALE");
+        BorderPane borderPane = new BorderPane();
+        borderPane.setPrefSize(500, 400);
+        
+        
+        GridPane gridPane = new GridPane();
+        
+        for (int i=0;i<myVars.size();i++){
             
+            VBox vBox = new VBox();
+            vBox.getChildren().add(new Label(myVars.get(i).getName()));
+            vBox.getChildren().add(new Label(myVars.get(i).getDescription()));
+            gridPane.add(vBox, i+1, 1);
+            //gridPane.add(new Label(myVars.get(i).getName()), i, 1);
+            paramEditorMap.get(myVars.get(i).getType());
+            gridPane.add(paramEditorMap.get(myVars.get(i).getType()).getPane(), i+1, 2);
+            
+        }
+        borderPane.setTop(gridPane);
+        
+        GridPane gridPaneButton = new GridPane();
+        Button button = new Button("Comprobar");
+        gridPane.add(button, 1, 1);
+        
+        button.setOnAction((final ActionEvent e) -> {
+           for (Assertion a : assertions) {
             if (!a.check(env).isPresent()) {
                 System.out.println("true");
             } else {
@@ -65,46 +103,10 @@ public class PoVALEView extends Application {
                 System.out.println(a.check(env).get().toString());
             }
         }
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-     public void builder(Stage stage, List<Var> myVars) throws Exception {
-        /* Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        Scene scene = new Scene(root);
-        //stage.setTitle("");
-        stage.setScene(scene);
+        });
+        
+        stage.setScene(new Scene(borderPane,500,400));
         stage.show();
-        */
-        HashMap paramEditorMap = new HashMap();
-        paramEditorMap.put("String",new StringEditor());
-        paramEditorMap.put("File",new FileEditor(stage));
-        
-        stage.setTitle("PoVALE's Interface");
-        BorderPane borderPane = new BorderPane();
-        borderPane.setPrefSize(200, 200);
-        
-        
-        GridPane gridPane = new GridPane();
-        for (int i=0;i<myVars.size();i++){
-            
-            /*
-            VBox vBox = new VBox();
-            vBox.getChildren().add(new Label(myVars.get(i).getName()));
-            vBox.getChildren().add(new Label(myVars.get(i).getDescription()));
-            */
-            
-            gridPane.add(new Label(myVars.get(i).getName()), i, 1);
-            ParameterEditor p = (ParameterEditor) paramEditorMap.get(myVars.get(i).getType());
-            gridPane.add(p.getPane(), i, 2);  // column=3 row=1
-            
-        }
-        borderPane.getChildren().add(gridPane);
-        stage.setScene(new Scene(borderPane, 200, 200));
-        //leer de una lista la lista de variables e ir metiendolas en la pantalla
     }
     
     
