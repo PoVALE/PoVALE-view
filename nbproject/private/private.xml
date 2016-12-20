@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/laurahernandoserrano/NetBeansProjects/PoVALE-view/src/es/ucm/povale/parameter/StringEditor.java</file>
-            <file>file:/Users/laurahernandoserrano/NetBeansProjects/PoVALE-view/src/es/ucm/povale/parameter/ParameterController.java</file>
-            <file>file:/Users/laurahernandoserrano/NetBeansProjects/PoVALE-view/src/es/ucm/povale/parameter/IntegerEntity.java</file>
-            <file>file:/Users/laurahernandoserrano/NetBeansProjects/PoVALE-view/src/es/ucm/povale/parameter/ParameterEditor.java</file>
+            <file>file:/Users/laurahernandoserrano/NetBeansProjects/PoVALE-view/src/es/ucm/povale/view/PoVALEView.java</file>
+            <file>file:/Users/laurahernandoserrano/NetBeansProjects/PoVALE-view/src/es/ucm/povale/view/FXMLDocument.fxml</file>
             <file>file:/Users/laurahernandoserrano/NetBeansProjects/PoVALE-view/src/es/ucm/povale/parameter/FileEditor.java</file>
         </group>
     </open-files>
