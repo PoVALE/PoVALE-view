@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- etiqueta principal -->
+<spec>
+
+	<!-- rutas de plugins-->
+        <import>es.ucm.povale.FilesPlugin</import>
+        
+	<!-- variables generales -->
+	<var>
+            <name>Nombre Grupo</name>
+            <desc>String</desc>
+            <type>StringEntity</type>
+        </var>
+	
+	<!-- root -->
+        <rootFile>path</rootFile>
+	
+	<!-- asertos: -->
+	<assertion>
+		<!-- cada aserto principal ira entre <assert>
+		ejemplos de cada tipo de aserto: -->
+		
+		<!-- And: -->
+            <assert>
+                <and>
+                    <>condicion 1</>
+                    <> condicion ... </>
+                    <> condicion n </>
+                </and>
+            </assert>
+		
+		<!-- Or: -->
+            <assert>
+                <or>
+                    <orAssert> condicion 1 </orAssert>
+				<orAssert> condicion ... </orAssert>
+				<orAssert> condicion n </orAssert>
+			</or>
+		</assert>
+		
+		<!-- Not: -->
+		<assert>	
+			<not>
+				aserto 
+			</not>
+		</assert>
+
+		<!-- Assert false: -->
+		<assert>	
+			<assertFalse> </assertFalse>
+		</assert>
+		
+		<!-- Assert true: -->
+		<assert>	
+			<assertTrue> </assertTrue>
+		</assert>
+
+		<!-- Entail: -->
+		<assert>	
+			<entail>
+				<lhs> </lhs>
+				<rhs> </rhs>
+			</entail>
+		</assert>
+		
+		<!-- Equals: -->
+		<assert>	
+			<equals>
+				<lhs> </lhs>
+				<rhs> </rhs>
+			</equals>
+		</assert>              
+		<!-- Exist: -->
+		<assert>
+			<exist>
+				<variable> </variable>
+				<!-- Cualquier tipo de termino: -->
+				<listTerm> ...</listTerm>
+				<!-- Cualquier tipo de aserto: -->
+				<and> ... </and>
+			</exist>
+		</assert>
+		
+		<!-- ExistOne: -->
+		<assert>
+			<existOne>
+				<variable> </variable>
+				<!-- Cualquier tipo de termino: -->
+				<listTerm> ...</listTerm>
+				<!-- Cualquier tipo de aserto: -->
+				<and> ... </and>
+			</existOne>
+		</assert>		
+		
+		<!-- ForAll: -->
+		<assert>
+			<forAll>
+				<variable> </variable>
+				<!-- Cualquier tipo de termino: -->
+				<listTerm> ...</listTerm>
+				<!-- Cualquier tipo de aserto: -->
+				<and> ... </and>
+			</forAll>
+		</assert>
+		
+		<!-- PredicateApplication: -->
+		<assert>
+			<predicateApplication>
+				<predicate> </predicate>
+				<termList> 
+					<term> term 1 </term>
+					<term> term n </term>
+				</termList>
+			</predicateApplication>
+		</assert>
+		
+	</assertion>
+</spec>

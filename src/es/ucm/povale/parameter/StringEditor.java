@@ -40,7 +40,7 @@ public class StringEditor extends ParameterEditor<StringEntity> {
     public StringEditor() {
         this.pane = new HBox();
         input = new TextField();
-        input.setPrefColumnCount(100);
+        input.setPrefColumnCount(20);
         pane.getChildren().add(input);
     }
 
