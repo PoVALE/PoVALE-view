@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spec>
     
-    <import>es.ucm.povale.PoVALE-plugin-files.FilesPlugin</import>
+    <import></import>
     <rootFile></rootFile>
     <var>
         <label>Nombre Grupo</label>
@@ -9,6 +9,7 @@
         <desc>Poner el nombre del grupo en formato LabxPx</desc>
         <type>StringEntity</type>
     </var>
+    
     
     <assertion>
         <assert>

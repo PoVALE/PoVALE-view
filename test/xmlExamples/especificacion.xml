@@ -8,7 +8,8 @@
         
 	<!-- variables generales -->
 	<var>
-            <name>Nombre Grupo</name>
+            <label>Nombre Grupo</label>
+        <name>Nombre Grupo</name>
             <desc>String</desc>
             <type>StringEntity</type>
         </var>
