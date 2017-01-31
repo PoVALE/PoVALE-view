@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spec>
     
-    <import>es.ucm.povale.FilesPlugin</import>
+    <import>es.ucm.povaleFiles.FilesPlugin</import>
     <rootFile></rootFile>
     <var>
-        <name>Nombre Grupo</name>
+        <label>Nombre</label>
+        <name>nombre_grupo</name>
         <desc>String</desc>
         <type>StringEntity</type>
     </var>
-    
+    <!--
+    <var>
+        <label>Otra</label>
+        <name>descr_grupo</name>
+        <desc>Pon la descripción de tu grupo</desc>
+        <type>IntegerEntity</type>
+    </var>
+    -->
     <assertion>
         <assert>
-            <exist>
+            <exist msg="Alguno de los elementos de (1,3,6) ha de ser igual a 7">
                 <variable>x</variable>
                 
                 <listTerm>
@@ -19,15 +27,21 @@
                     <literalInteger>3</literalInteger>
                     <literalInteger>6</literalInteger>
                 </listTerm>
-                <equals>
+                <equals msg="${x} es igual a 7">
                     <lhs>
                         <variable>x</variable>
                     </lhs>
                     <rhs>
-                        <literalInteger>8</literalInteger>
+                        <literalInteger>7</literalInteger>
                     </rhs>
                 </equals>
             </exist>
+        </assert>
+        <assert>
+            <assertTrue> </assertTrue>
+        </assert>
+        <assert>
+            <assertFalse> </assertFalse>
         </assert>
     </assertion>
 </spec>

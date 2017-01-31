@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package es.ucm.povale.views;
 
 import es.ucm.povale.assertion.Assertion;
@@ -19,11 +15,16 @@ import java.util.List;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -36,6 +37,9 @@ import javafx.stage.Stage;
  */
 public class PoVALEView extends Application {
     
+    private Node correctIcon = new ImageView(new Image("file:src/main/resources/correct.png"));
+    private Node incorrectIcon = new ImageView(new Image("file:src/main/resources/incorrect.png"));
+    
     /**
      * @param args the command line arguments
      */
@@ -46,7 +50,8 @@ public class PoVALEView extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        String XMLFile = "src/main/resources/existDocument.xml";
+        
+        String XMLFile = "src/main/resources/existDocument.xml";  
         XMLParser parser = new XMLParser();
         parser.parseXMLFile(XMLFile);
         List<Var> myVars = parser.getMyVars();
@@ -66,8 +71,6 @@ public class PoVALEView extends Application {
     
         HashMap<String,ParameterEditor> paramEditorMap = new HashMap<>();
         paramEditorMap.put("StringEntity",new StringEditor());
-        //paramEditorMap.put("File",new FileEditor(stage));
-        
         
         TitledPane mainPane = new TitledPane();
         mainPane.setPrefHeight(400);
@@ -100,24 +103,42 @@ public class PoVALEView extends Application {
         resultPanel.setPrefHeight(200);
         resultPanel.setPrefWidth(200);
         resultPanel.setAlignment(Pos.CENTER);
-        TextArea resultText = new TextArea();
-        resultText.setPrefHeight(200);
-        resultText.setPrefWidth(577);        
-        resultPanel.getChildren().add(resultText);
+        resultPanel.setPrefSize(200, 577);
         contentPane.setBottom(resultPanel);
         
         mainPane.setContent(contentPane);
         
-         button.setOnAction((final ActionEvent e) -> {
-           for (Assertion a : assertions) {
-            if (!a.check(env).isPresent()) {
-                resultText.setText("Se cumplen los requisitos");
-            } else {
-                resultText.setText("Los requisitos no se cumplen");
-            }
+        button.setOnAction((final ActionEvent e) -> {
+            boolean result = true;
+            TreeItem<String> rootNode = 
+                new TreeItem<String>("", correctIcon);
+            
+            rootNode.setExpanded(false);
+            
+            for (Assertion a : assertions) {
+                TreeItem<String> assertLeaf = null;
+                if (!a.check(env).isPresent()) {
+                    assertLeaf = new TreeItem<String>("OK", correctIcon);
+                    rootNode.getChildren().add(assertLeaf);
+                } 
+                else 
+                {
+                    result = false;
+                    //assertLeaf = new TreeItem<String>("Incorrect", incorrectIcon);
+                    assertLeaf = new TreeItem<String>(a.getMessage(), incorrectIcon);
+                    rootNode.getChildren().add(assertLeaf);
+                }
+               
         }
-        });
-                          
+           if(!result)
+               rootNode.setGraphic(incorrectIcon);
+           
+            TreeView<String> tree = new TreeView<String> (rootNode); 
+            resultPanel.getChildren().clear();
+            resultPanel.getChildren().add(tree);
+            contentPane.setBottom(resultPanel);
+            mainPane.setContent(contentPane);
+        });                 
         stage.setScene(new Scene(mainPane));
         stage.show();
     }
