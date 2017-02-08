@@ -6,6 +6,8 @@
 package es.ucm.povale.views;
 
 import es.ucm.povale.reader.Var;
+import es.ucm.povale.views.parameter.FileEditor;
+import es.ucm.povale.views.parameter.IntegerEditor;
 import es.ucm.povale.views.parameter.ParameterEditor;
 import es.ucm.povale.views.parameter.StringEditor;
 import java.net.URL;
@@ -133,6 +135,13 @@ public class FXMLController{
                 case "StringEntity":
                     panes.get(i).getChildren().add(new StringEditor().getPane());
                     break;
+                case "IntegerEntity":
+                    panes.get(i).getChildren().add(new IntegerEditor().getPane());
+                    break;
+                case "FileEntity":
+                    //panes.get(i).getChildren().add(new FileEditor().getPane());
+                    break;
+                    
             }
                     
         }
