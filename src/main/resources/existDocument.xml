@@ -4,9 +4,22 @@
     <import>es.ucm.povaleFiles.FilesPlugin</import>
     <rootFile></rootFile>
     <var>
-        <label>Nombre</label>
+        <label>Identificador del grupo</label>
         <name>nombre_grupo</name>
-        <desc>String</desc>
+        <desc>Formato: LXXGXX </desc>
+        <type>StringEntity</type>
+    </var>
+    <var>
+        <label>Nombre Integrante 1</label>
+        <name>nombre_p1</name>
+        <desc>Introduzca nombre y apellidos</desc>
+        <type>StringEntity</type>
+    </var>
+    
+    <var>
+        <label>Nombre Integrante 2</label>
+        <name>nombre_p3</name>
+        <desc>Introduzca nombre y apellidos </desc>
         <type>StringEntity</type>
     </var>
     <!--

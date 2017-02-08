@@ -38,15 +38,18 @@ public class StringEditor extends ParameterEditor<StringEntity> {
     private TextField input;
 
     public StringEditor() {
-        this.pane = new HBox();
-        input = new TextField();
-        input.setPrefColumnCount(20);
-        pane.getChildren().add(input);
+        
     }
 
     @Override
     public Pane getPane() {
-        return this.pane;
+        HBox paneI = new HBox();
+        TextField inputI = new TextField();
+        inputI.setPrefColumnCount(20);
+        paneI.getChildren().add(inputI);
+        this.pane = paneI;
+        this.input = inputI;
+        return paneI;
     }
 
     @Override

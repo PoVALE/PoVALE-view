@@ -34,26 +34,27 @@ import javafx.util.converter.NumberStringConverter;
  *
  * @author PoVALE Team
  */
-public class IntegerEntity extends ParameterEditor<StringEntity> {
+public class IntegerEditor extends ParameterEditor<StringEntity> {
 
-    private HBox pane;
-    private TextField numberField;
-
-    public IntegerEntity() {
-        this.pane = new HBox();
+    Pane pane;
+    TextField numberField;
+        
+    public IntegerEditor() {
+        
+    }
+    
+    @Override
+    public Pane getPane() {
+        Pane pane = new HBox();
+        TextField numberField = new TextField();
         numberField = new TextField();
         numberField.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
         numberField.setPrefColumnCount(20);
         pane.setPrefWidth(20);
         pane.getChildren().add(numberField);
-    }
-    
-    
-
-
-    @Override
-    public Pane getPane() {
-        return this.pane;
+        this.pane = pane;
+        this.numberField = numberField;
+        return pane;
     }
 
     @Override
