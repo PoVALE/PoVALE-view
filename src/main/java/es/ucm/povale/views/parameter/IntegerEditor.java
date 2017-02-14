@@ -49,7 +49,7 @@ public class IntegerEditor extends ParameterEditor<StringEntity> {
         TextField numberField = new TextField();
         numberField = new TextField();
         numberField.setTextFormatter(new TextFormatter<>(new NumberStringConverter()));
-        numberField.setPrefColumnCount(20);
+        numberField.setPrefColumnCount(21);
         pane.getChildren().add(numberField);
         this.pane = pane;
         this.numberField = numberField;

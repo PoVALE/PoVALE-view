@@ -42,6 +42,7 @@ public class MainApp extends Application {
         stage.show(); 
         
         controller.initializeVariables();
+        controller.setStage(stage);
         
     }
 

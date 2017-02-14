@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  *
@@ -63,15 +64,21 @@ public class FXMLController{
     @FXML private Pane pane8;
     
     
-    List<Var> environmentVariables;
-    List<Label> variableNames;
-    List<Label> variableDescriptions;
-    List<Separator> lines;
-    List<Pane> panes;
+    private List<Var> environmentVariables;
+    private List<Label> variableNames;
+    private List<Label> variableDescriptions;
+    private List<Separator> lines;
+    private List<Pane> panes;
+    
+    private Stage stage;
     
     @FXML
     public void initialize() {
         createLists();
+    }
+    
+    public void setStage(Stage mainStage){
+        this.stage = mainStage;
     }
     
     private void createLists(){
@@ -139,7 +146,7 @@ public class FXMLController{
                     panes.get(i).getChildren().add(new IntegerEditor().getPane());
                     break;
                 case "FileEntity":
-                    //panes.get(i).getChildren().add(new FileEditor().getPane());
+                    panes.get(i).getChildren().add(new FileEditor().getPane(this.stage));
                     break;
                     
             }

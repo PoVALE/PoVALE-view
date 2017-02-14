@@ -27,6 +27,13 @@
         <desc>Introduzca el número de entrega (0,3) </desc>
         <type>IntegerEntity</type>
     </var>
+    <var>
+        <label>Directorio de la entrega</label>
+        <name>dirPrincipal</name>
+        <desc>Seleccione su carpeta src</desc>
+        <type>FileEntity</type>
+    </var>
+    
     
     <assertion>
         <assert>

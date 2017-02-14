@@ -22,15 +22,18 @@ public class FileEditor extends ParameterEditor<FSFile> {
     private TextField path;
     private File selectedFile;
 
-    public FileEditor(final Stage stage) {
+    public FileEditor() {
+    }
+    
+    public Pane getPane(final Stage stage) {
         this.pane = new HBox();
         this.fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
                 new ExtensionFilter("Java Files", "*.java"));
 
-        this.selectButton = new Button("Open Resource File");
+        this.selectButton = new Button("Abrir");
         this.path = new TextField();
-        this.path.setPrefColumnCount(100);
+        this.path.setPrefColumnCount(17);
 
         selectButton.setOnAction((final ActionEvent e) -> {
             selectedFile = fileChooser.showOpenDialog(stage);
@@ -53,6 +56,7 @@ public class FileEditor extends ParameterEditor<FSFile> {
 
         });
         pane.getChildren().addAll(path, selectButton);
+        return this.pane;
     }
 
     @Override
