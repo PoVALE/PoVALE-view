@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spec>
+    
+    <import></import>
+    <rootFile></rootFile>
+    <var>
+        <label>Nombre Grupo</label>
+        <longdesc>String</longdesc>
+        <name>nombreGrupo</name>
+        <type>StringEntity</type>
+        
+    </var>
+    
+    
+    <assertion>
+        <assert>
+            <exist>
+                <variable>x</variable>
+                
+                <listTerm>
+                    <literalInteger>1</literalInteger>
+                    <literalInteger>3</literalInteger>
+                    <literalInteger>6</literalInteger>
+                </listTerm>
+                <equals>
+                    <lhs>
+                        <variable>x</variable>
+                    </lhs>
+                    <rhs>
+                        <literalInteger>8</literalInteger>
+                    </rhs>
+                </equals>
+            </exist>
+        </assert>
+    </assertion>
+</spec>

@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TreeView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -59,6 +60,8 @@ public class FXMLController{
     @FXML private Pane pane7;
     @FXML private Pane pane8;
     
+    @FXML private TreeView tvRequisitos;
+    @FXML private TreeView tvValidacion;
     
     private List<Var> environmentVariables;
     private List<Label> variableNames;
@@ -128,10 +131,10 @@ public class FXMLController{
     
     public void initializeVariables(){ 
         
-        
         if(this.env.getVariables().size()>9){
             //throw error
         }
+
         List<Var> list = this.env.getVariables().stream().collect(Collectors.toList());
         
         for(int i=0; i<list.size();i++){
@@ -150,4 +153,6 @@ public class FXMLController{
         }
         
     }
+    
+    
 }

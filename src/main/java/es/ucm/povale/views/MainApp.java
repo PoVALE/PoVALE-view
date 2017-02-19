@@ -10,13 +10,15 @@ import javafx.stage.Stage;
 
 
 public class MainApp extends Application {
-    
-    private Environment environment;
-    
-    public MainApp(Environment env){
-        this.environment = env;
-    }
 
+    
+    
+    public void setController(FXMLController controller) {
+        this.controller = controller;
+    }
+    
+    private FXMLController controller;
+    
     @Override
     public void start(Stage stage) throws Exception {
         
@@ -24,19 +26,18 @@ public class MainApp extends Application {
         
         Parent root = (Parent)fxmlLoader.load(); 
         
-        FXMLController controller = fxmlLoader.<FXMLController>getController();
+        //FXMLController controller = fxmlLoader.<FXMLController>getController();
         
-        controller.setEnvironment(this.environment);
+        //controller.setEnvironment(this.environment);
         
         Scene scene = new Scene(root); 
         scene.getStylesheets().add("/styles/Styles.css");
         stage.setTitle("PoVALE");
         stage.setScene(scene);    
 
-        stage.show(); 
-        
         controller.initializeVariables();
         controller.setStage(stage);
+        stage.show();
         
     }
 
@@ -52,8 +53,4 @@ public class MainApp extends Application {
         launch(args);
     }
     
-    public void show() {
-        launch();
-    }
-
 }
