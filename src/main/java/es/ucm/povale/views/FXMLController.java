@@ -6,6 +6,8 @@
 package es.ucm.povale.views;
 
 import es.ucm.povale.Var;
+import es.ucm.povale.assertInformation.AssertInformation;
+import es.ucm.povale.assertion.Assertion;
 import es.ucm.povale.entity.Entity;
 import es.ucm.povale.environment.Environment;
 import es.ucm.povale.views.parameter.ParameterEditor;
@@ -13,9 +15,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -68,6 +74,8 @@ public class FXMLController{
     private List<Label> variableDescriptions;
     private List<Separator> lines;
     private List<Pane> panes;
+    private List<Assertion> assertions;
+    
     
     private Stage stage;
     
@@ -154,5 +162,54 @@ public class FXMLController{
         
     }
     
+    public TreeItem<String> createBranch(AssertInformation node){
+        TreeItem<String> assertRoot;
+        TreeItem<String> assertBranch;//sub arbol para descendientes
+        //1. creamos raiz
+        if(node.getResult()){
+            Node correctIcon = new ImageView(new Image("file:src/main/resources/correct.png"));
+            assertRoot = new TreeItem<>(node.getMessage(), correctIcon);  
+        }
+        else{
+            Node incorrectIcon = new ImageView(new Image("file:src/main/resources/incorrect.png"));
+            assertRoot = new TreeItem<>(node.getMessage(), incorrectIcon);
+        }
+        
+        //2. si no es hoja crear hijos
+        if(!node.isLeaf()){
+            for(int i=0; i < node.getChildren().size(); i++){
+                assertBranch = createBranch(node.getChildren().get(i));
+                assertRoot.getChildren().add(assertBranch);
+            }
+        }
+        return assertRoot;
+    }
     
+    button.setOnAction((final ActionEvent e) -> {
+            
+            boolean result = true;
+            Node correctIcon = new ImageView(new Image("file:src/main/resources/correct.png"));
+            Node incorrectIcon = new ImageView(new Image("file:src/main/resources/incorrect.png"));
+            TreeItem<String> rootNode = 
+                new TreeItem<>("Se han cumplen los siquientes requisitos:", correctIcon);
+            
+            rootNode.setExpanded(true);
+            
+            for (Assertion a : assertions) {
+                TreeItem<String> assertBranch = null;
+                AssertInformation assertInfo = a.check(env);
+                if (!assertInfo.getResult()) {
+                    result = false;
+                }
+                assertBranch = createBranch(assertInfo);
+                rootNode.getChildren().add(assertBranch);
+            }
+           if(!result)
+               rootNode.setGraphic(incorrectIcon);
+           
+            TreeView<String> tree = new TreeView<> (rootNode); 
+            //resultPanel.getChildren().clear();
+            //resultPanel.getChildren().add(tree);
+            
+        }); 
 }
