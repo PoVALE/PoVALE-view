@@ -25,7 +25,9 @@ package es.ucm.povale.views.parameter;
 
 
 import es.ucm.povale.entity.Entity;
+import java.util.List;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  *
@@ -40,5 +42,8 @@ public abstract class ParameterEditor <T extends Entity>{
     
     public abstract boolean isValid();
     
+    public abstract void setStage(Stage stage);
+    
+   
     
 }

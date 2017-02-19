@@ -1,6 +1,5 @@
 es/ucm/povale/views/FXMLController.class
 es/ucm/povale/views/parameter/IntegerEditor.class
-es/ucm/povale/views/parameter/FileEditor.class
 es/ucm/povale/views/PoVALEView.class
 es/ucm/povale/views/NewClass.class
 es/ucm/povale/views/parameter/ParameterEditor.class

@@ -32,6 +32,11 @@
         <name>dirPrincipal</name>
         <desc>Seleccione su carpeta src</desc>
         <type>FileEntity</type>
+        <params>
+            <param name='type'>Java</param>
+            <param name='file'>Java</param>
+        </params>
+        
     </var>
     
     

@@ -1,15 +1,12 @@
 
 package es.ucm.povale.views;
 
+import es.ucm.povale.Var;
 import es.ucm.povale.assertion.Assertion;
 import es.ucm.povale.entity.IntegerEntity;
 import es.ucm.povale.environment.Environment;
-//import es.ucm.povale.parameter.FileEditor;
 import es.ucm.povale.views.parameter.ParameterEditor;
 import es.ucm.povale.views.parameter.StringEditor;
-import es.ucm.povale.plugin.Import;
-import es.ucm.povale.reader.Var;
-import es.ucm.povale.reader.XMLParser;
 import java.util.HashMap;
 import java.util.List;
 import javafx.application.Application;
@@ -19,7 +16,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -50,18 +46,18 @@ public class PoVALEView extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        
+       /* 
         String XMLFile = "src/main/resources/existDocument.xml";  
         XMLParser parser = new XMLParser();
         parser.parseXMLFile(XMLFile);
-        List<Var> myVars = parser.getMyVars();
-
+      List<Var> myVars = parser.getMyVars();
+                
         Environment env = new Environment();
         
         List<String> plugins = parser.getMyPlugins();
         if(!plugins.get(0).equalsIgnoreCase("")){
             for (String a : plugins){
-                Import plugin = new Import(a);
+                //Import plugin = new Import(a);
             }
         }
 
@@ -140,7 +136,7 @@ public class PoVALEView extends Application {
             mainPane.setContent(contentPane);
         });                 
         stage.setScene(new Scene(mainPane));
-        stage.show();
+        stage.show();*/
     }
     
     

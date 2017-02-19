@@ -1,20 +1,21 @@
 package es.ucm.povale.views;
 
-import es.ucm.povale.reader.Var;
-import es.ucm.povale.reader.XMLParser;
-import java.util.List;
+import es.ucm.povale.environment.Environment;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 
 public class MainApp extends Application {
+    
+    private Environment environment;
+    
+    public MainApp(Environment env){
+        this.environment = env;
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -25,14 +26,7 @@ public class MainApp extends Application {
         
         FXMLController controller = fxmlLoader.<FXMLController>getController();
         
-        //
-        String XMLFile = "src/main/resources/existDocument.xml";  
-        XMLParser parser = new XMLParser();
-        parser.parseXMLFile(XMLFile);
-        List<Var> myVars = parser.getMyVars();
-        //
-        
-        controller.setVariables(myVars);
+        controller.setEnvironment(this.environment);
         
         Scene scene = new Scene(root); 
         scene.getStylesheets().add("/styles/Styles.css");
@@ -58,6 +52,8 @@ public class MainApp extends Application {
         launch(args);
     }
     
-    
+    public void show() {
+        launch();
+    }
 
 }

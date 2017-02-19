@@ -5,19 +5,14 @@
  */
 package es.ucm.povale.views;
 
-import es.ucm.povale.reader.Var;
-import es.ucm.povale.views.parameter.FileEditor;
-import es.ucm.povale.views.parameter.IntegerEditor;
+import es.ucm.povale.Var;
+import es.ucm.povale.entity.Entity;
+import es.ucm.povale.environment.Environment;
 import es.ucm.povale.views.parameter.ParameterEditor;
-import es.ucm.povale.views.parameter.StringEditor;
-import java.net.URL;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
+import java.util.stream.Collectors;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.Pane;
@@ -28,6 +23,7 @@ import javafx.stage.Stage;
  * @author laurahernandoserrano
  */
 public class FXMLController{
+    
     
     @FXML private Label lblName1;
     @FXML private Label lblDesc1;
@@ -71,6 +67,8 @@ public class FXMLController{
     private List<Pane> panes;
     
     private Stage stage;
+    
+    private Environment env;
     
     @FXML
     public void initialize() {
@@ -124,36 +122,28 @@ public class FXMLController{
         
     }    
     
-    public void setVariables(List<Var> variables){
-        this.environmentVariables = variables;
+    public void setEnvironment(Environment e){
+        this.env = e;
     }
     
-    public void initializeVariables(){
+    public void initializeVariables(){ 
         
-        if(this.environmentVariables.size()>9){
+        
+        if(this.env.getVariables().size()>9){
             //throw error
         }
-       
-        for(int i=0; i<environmentVariables.size();i++){
-            variableNames.get(i).setText(environmentVariables.get(i).getLabel());
-            variableDescriptions.get(i).setText(environmentVariables.get(i).getDescription());
+        List<Var> list = this.env.getVariables().stream().collect(Collectors.toList());
+        
+        for(int i=0; i<list.size();i++){
+            variableNames.get(i).setText(list.get(i).getLabel());
+            variableDescriptions.get(i).setText(list.get(i).getDescription());
             
-            switch(environmentVariables.get(i).getType()){
-                case "StringEntity":
-                    panes.get(i).getChildren().add(new StringEditor().getPane());
-                    break;
-                case "IntegerEntity":
-                    panes.get(i).getChildren().add(new IntegerEditor().getPane());
-                    break;
-                case "FileEntity":
-                    panes.get(i).getChildren().add(new FileEditor().getPane(this.stage));
-                    break;
-                    
-            }
-                    
+            ParameterEditor<? extends Entity> editor = env.getParamEditor(list.get(i).getType()).getEditor(list.get(i).getType(), list.get(i).getParameters());
+            editor.setStage(this.stage);
+            panes.get(i).getChildren().add(editor.getPane());
         }
         
-        for(int j=environmentVariables.size(); j<8; j++){
+        for(int j=list.size(); j<8; j++){
             variableNames.get(j).setVisible(false);
             variableDescriptions.get(j).setVisible(false);
             lines.get(j).setVisible(false);

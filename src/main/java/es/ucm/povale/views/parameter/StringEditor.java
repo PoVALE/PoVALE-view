@@ -27,6 +27,7 @@ import es.ucm.povale.entity.StringEntity;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  *
@@ -60,6 +61,10 @@ public class StringEditor extends ParameterEditor<StringEntity> {
     @Override
     public boolean isValid() {
         return input.getText().isEmpty();
+    }
+
+    @Override
+    public void setStage(Stage stage) {
     }
 
 }

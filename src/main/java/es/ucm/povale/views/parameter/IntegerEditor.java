@@ -28,6 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 
 /**
@@ -64,6 +65,10 @@ public class IntegerEditor extends ParameterEditor<StringEntity> {
     @Override
     public boolean isValid() {
         return numberField.getText().isEmpty();
+    }
+
+    @Override
+    public void setStage(Stage stage) {
     }
 
 }

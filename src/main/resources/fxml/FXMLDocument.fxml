@@ -179,9 +179,14 @@
                         <Pane fx:id="pane6" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                         <Pane fx:id="pane7" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                         <Pane fx:id="pane8" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                        <Button fx:id="btnEnviar" alignment="TOP_LEFT" contentDisplay="TOP" mnemonicParsing="false" text="Enviar" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                        <Button fx:id="btnEnviar" alignment="TOP_LEFT" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleBtnEnviar" text="Enviar" GridPane.columnIndex="1" GridPane.rowIndex="8">
                            <GridPane.margin>
                               <Insets left="200.0" />
+                           </GridPane.margin>
+                        </Button>
+                        <Button fx:id="btnModificar" mnemonicParsing="false" text="Modificar" GridPane.columnIndex="1" GridPane.rowIndex="8">
+                           <GridPane.margin>
+                              <Insets left="120.0" />
                            </GridPane.margin>
                         </Button>
                      </children>
