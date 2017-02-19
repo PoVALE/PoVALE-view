@@ -1,21 +1,20 @@
 package es.ucm.povale.views;
 
+import es.ucm.povale.assertInformation.AssertInformation;
 import es.ucm.povale.environment.Environment;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TreeItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 
 public class MainApp extends Application {
-
-    
-    
-    public void setController(FXMLController controller) {
-        this.controller = controller;
-    }
     
     private FXMLController controller;
     
@@ -51,6 +50,32 @@ public class MainApp extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    public TreeItem<String> createBranch(AssertInformation node) {
+        TreeItem<String> assertRoot;
+        TreeItem<String> assertBranch;//sub arbol para descendientes
+        //1. creamos raiz
+        if (node.getResult()) {
+            Node correctIcon = new ImageView(new Image("file:src/main/resources/correct.png"));
+            assertRoot = new TreeItem<>(node.getMessage(), correctIcon);
+        } else {
+            Node incorrectIcon = new ImageView(new Image("file:src/main/resources/incorrect.png"));
+            assertRoot = new TreeItem<>(node.getMessage(), incorrectIcon);
+        }
+
+        //2. si no es hoja crear hijos
+        if (!node.isLeaf()) {
+            for (int i = 0; i < node.getChildren().size(); i++) {
+                assertBranch = createBranch(node.getChildren().get(i));
+                assertRoot.getChildren().add(assertBranch);
+            }
+        }
+        return assertRoot;
+    }
+    
+    public void setController(FXMLController controller) {
+        this.controller = controller;
     }
     
 }
