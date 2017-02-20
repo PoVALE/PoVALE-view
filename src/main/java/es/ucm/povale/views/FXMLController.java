@@ -10,6 +10,7 @@ import es.ucm.povale.assertInformation.AssertInformation;
 import es.ucm.povale.assertion.Assertion;
 import es.ucm.povale.entity.Entity;
 import es.ucm.povale.environment.Environment;
+import es.ucm.povale.example.Main;
 import es.ucm.povale.views.parameter.ParameterEditor;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +34,19 @@ import javafx.stage.Stage;
  * @author laurahernandoserrano
  */
 public class FXMLController {
+    
+    private Main main;
+    
+    private List<Var> environmentVariables;
+    private List<Label> variableNames;
+    private List<Label> variableDescriptions;
+    private List<Separator> lines;
+    private List<Pane> panes;
+    private List<Assertion> assertions;
+
+    private Stage stage;
+
+    private Environment environment;
 
     @FXML
     private Label lblName1;
@@ -108,16 +122,7 @@ public class FXMLController {
     @FXML
     private Button btnComprobar;
 
-    private List<Var> environmentVariables;
-    private List<Label> variableNames;
-    private List<Label> variableDescriptions;
-    private List<Separator> lines;
-    private List<Pane> panes;
-    private List<Assertion> assertions;
-
-    private Stage stage;
-
-    private Environment env;
+    
 
     @FXML
     public void initialize() {
@@ -176,22 +181,22 @@ public class FXMLController {
     }
     
     public void setEnvironment(Environment e) {
-        this.env = e;
+        this.environment = e;
     }
 
     public void initializeVariables() {
 
-        if (this.env.getVariables().size() > 9) {
+        if (this.environment.getVariables().size() > 9) {
             //throw error
         }
 
-        List<Var> list = this.env.getVariables().stream().collect(Collectors.toList());
+        List<Var> list = this.environment.getVariables().stream().collect(Collectors.toList());
 
         for (int i = 0; i < list.size(); i++) {
             variableNames.get(i).setText(list.get(i).getLabel());
             variableDescriptions.get(i).setText(list.get(i).getDescription());
 
-            ParameterEditor<? extends Entity> editor = env.getParamEditor(list.get(i).getType()).getEditor(list.get(i).getType(), list.get(i).getParameters());
+            ParameterEditor<? extends Entity> editor = environment.getParamEditor(list.get(i).getType()).getEditor(list.get(i).getType(), list.get(i).getParameters());
             editor.setStage(this.stage);
             panes.get(i).getChildren().add(editor.getPane());
         }
@@ -237,7 +242,7 @@ public class FXMLController {
 
         for (Assertion a : assertions) {
             TreeItem<String> assertBranch = null;
-            AssertInformation assertInfo = a.check(env);
+            AssertInformation assertInfo = a.check(environment);
             if (!assertInfo.getResult()) {
                 result = false;
             }
@@ -250,4 +255,5 @@ public class FXMLController {
 
         tvValidacion = new TreeView<>(rootNode);
     }
+   
 }

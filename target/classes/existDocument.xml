@@ -15,21 +15,31 @@
         <desc>Introduzca nombre y apellidos</desc>
         <type>StringEntity</type>
     </var>
-    
     <var>
         <label>Nombre Integrante 2</label>
         <name>nombre_p3</name>
         <desc>Introduzca nombre y apellidos </desc>
         <type>StringEntity</type>
     </var>
-    <!--
     <var>
-        <label>Otra</label>
-        <name>descr_grupo</name>
-        <desc>Pon la descripción de tu grupo</desc>
+        <label>Número de entrega</label>
+        <name>nombre_p3</name>
+        <desc>Introduzca el número de entrega (0,3) </desc>
         <type>IntegerEntity</type>
     </var>
-    -->
+    <var>
+        <label>Directorio de la entrega</label>
+        <name>dirPrincipal</name>
+        <desc>Seleccione su carpeta src</desc>
+        <type>FileEntity</type>
+        <params>
+            <param name='type'>Java</param>
+            <param name='file'>Java</param>
+        </params>
+        
+    </var>
+    
+    
     <assertion>
         <assert>
             <exist msg="Alguno de los elementos de (1,3,6) ha de ser igual a 7">

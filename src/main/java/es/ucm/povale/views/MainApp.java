@@ -26,18 +26,16 @@ public class MainApp extends Application {
         Parent root = (Parent)fxmlLoader.load(); 
         
         //FXMLController controller = fxmlLoader.<FXMLController>getController();
-        
-        //controller.setEnvironment(this.environment);
-        
+        fxmlLoader.setController(controller);
         Scene scene = new Scene(root); 
+        
         scene.getStylesheets().add("/styles/Styles.css");
         stage.setTitle("PoVALE");
-        stage.setScene(scene);    
-
+        stage.setScene(scene);
+       
         controller.initializeVariables();
         controller.setStage(stage);
         stage.show();
-        
     }
 
     /**
@@ -51,29 +49,7 @@ public class MainApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
-    public TreeItem<String> createBranch(AssertInformation node) {
-        TreeItem<String> assertRoot;
-        TreeItem<String> assertBranch;//sub arbol para descendientes
-        //1. creamos raiz
-        if (node.getResult()) {
-            Node correctIcon = new ImageView(new Image("file:src/main/resources/correct.png"));
-            assertRoot = new TreeItem<>(node.getMessage(), correctIcon);
-        } else {
-            Node incorrectIcon = new ImageView(new Image("file:src/main/resources/incorrect.png"));
-            assertRoot = new TreeItem<>(node.getMessage(), incorrectIcon);
-        }
 
-        //2. si no es hoja crear hijos
-        if (!node.isLeaf()) {
-            for (int i = 0; i < node.getChildren().size(); i++) {
-                assertBranch = createBranch(node.getChildren().get(i));
-                assertRoot.getChildren().add(assertBranch);
-            }
-        }
-        return assertRoot;
-    }
-    
     public void setController(FXMLController controller) {
         this.controller = controller;
     }
