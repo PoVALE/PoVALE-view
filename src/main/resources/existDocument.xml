@@ -4,7 +4,7 @@
     <import>es.ucm.povaleFiles.FilesPlugin</import>
     <rootFile></rootFile>
     <var>
-        <label>Identificador del grupo</label>
+        <label>Identificador</label>
         <name>nombre_grupo</name>
         <desc>Formato: LXXGXX </desc>
         <type>StringEntity</type>

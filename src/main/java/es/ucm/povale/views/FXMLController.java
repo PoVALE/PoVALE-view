@@ -11,12 +11,16 @@ import es.ucm.povale.assertion.Assertion;
 import es.ucm.povale.entity.Entity;
 import es.ucm.povale.environment.Environment;
 import es.ucm.povale.example.Main;
-import es.ucm.povale.views.parameter.ParameterEditor;
+import es.ucm.povale.parameters.ParameterEditor;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 
@@ -33,10 +37,13 @@ import javafx.stage.Stage;
  *
  * @author laurahernandoserrano
  */
-public class FXMLController {
-    
+public class FXMLController implements Initializable {
+
+    public FXMLController() {
+    }
+
     private Main main;
-    
+
     private List<Var> environmentVariables;
     private List<Label> variableNames;
     private List<Label> variableDescriptions;
@@ -122,11 +129,41 @@ public class FXMLController {
     @FXML
     private Button btnComprobar;
 
-    
-
     @FXML
     public void initialize() {
         createLists();
+    }
+
+    // This method is called by the FXMLLoader when initialization is complete
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        btnComprobar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                boolean result = true;
+                Node correctIcon = new ImageView(new Image("file:src/main/resources/correct.png"));
+                Node incorrectIcon = new ImageView(new Image("file:src/main/resources/incorrect.png"));
+                TreeItem<String> rootNode = new TreeItem<>("Se cumplen los siquientes requisitos:", correctIcon);
+
+                rootNode.setExpanded(true);
+
+                for (Assertion a : assertions) {
+                    TreeItem<String> assertBranch = null;
+                    AssertInformation assertInfo = a.check(environment);
+                    if (!assertInfo.getResult()) {
+                        result = false;
+                    }
+                    assertBranch = createBranch(assertInfo);
+                    rootNode.getChildren().add(assertBranch);
+                }
+                if (!result) {
+                    rootNode.setGraphic(incorrectIcon);
+                }
+
+                tvValidacion = new TreeView<>(rootNode);
+            }
+        });
+
     }
 
     public void setStage(Stage mainStage) {
@@ -179,7 +216,7 @@ public class FXMLController {
     public void setAssertions(List<Assertion> assertions) {
         this.assertions = assertions;
     }
-    
+
     public void setEnvironment(Environment e) {
         this.environment = e;
     }
@@ -232,7 +269,7 @@ public class FXMLController {
     }
 
     @FXML
-    private void handleComprobarButtonAction(ActionEvent event) {
+    private void handleButtonAction(ActionEvent event) {
         boolean result = true;
         Node correctIcon = new ImageView(new Image("file:src/main/resources/correct.png"));
         Node incorrectIcon = new ImageView(new Image("file:src/main/resources/incorrect.png"));
@@ -255,5 +292,5 @@ public class FXMLController {
 
         tvValidacion = new TreeView<>(rootNode);
     }
-   
+
 }

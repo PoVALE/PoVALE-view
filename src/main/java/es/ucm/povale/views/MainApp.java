@@ -1,32 +1,53 @@
 package es.ucm.povale.views;
 
-import es.ucm.povale.assertInformation.AssertInformation;
 import es.ucm.povale.environment.Environment;
+import es.ucm.povale.example.Main;
+import es.ucm.povale.plugin.Import;
+import es.ucm.povale.reader.XMLParser;
+import java.io.InputStream;
+import java.util.List;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TreeItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 
 public class MainApp extends Application {
     
-    private FXMLController controller;
+    private static Environment environment;
     
     @Override
     public void start(Stage stage) throws Exception {
         
+        
+        InputStream is = Main.class.getClassLoader().getResourceAsStream("existDocument.xml");
+        
+        System.out.println(is);
+        
+        XMLParser parser = new XMLParser();
+        parser.parseXMLFile(is);
+
+        List<String> plugins = parser.getMyPlugins();
+        if (!plugins.get(0).equalsIgnoreCase("")) {
+            for (String a : plugins) {
+                Import plugin = new Import(a, environment);
+            }
+        }
+
+        environment.addParamEditors();
+
+        environment.addVariables(parser.getMyVars());
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/FXMLDocument.fxml"));   
         
-        Parent root = (Parent)fxmlLoader.load(); 
+        FXMLController controller = fxmlLoader.<FXMLController>getController();
         
-        //FXMLController controller = fxmlLoader.<FXMLController>getController();
-        fxmlLoader.setController(controller);
+        Parent root = (Parent)fxmlLoader.load(); 
+
+        controller.setAssertions(parser.getMyAsserts());
+        
         Scene scene = new Scene(root); 
         
         scene.getStylesheets().add("/styles/Styles.css");
@@ -35,8 +56,13 @@ public class MainApp extends Application {
        
         controller.initializeVariables();
         controller.setStage(stage);
+        
+        System.out.println(controller);
+        
         stage.show();
     }
+    
+    //scene povale que tenga como param de entrada un xml parser y haga un .show()
 
     /**
      * The main() method is ignored in correctly deployed JavaFX application.
@@ -49,9 +75,9 @@ public class MainApp extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
+/*
     public void setController(FXMLController controller) {
-        this.controller = controller;
+        MainApp.controller = controller;
     }
-    
+    */
 }

@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.ucm.povale.views.FXMLController">
   <panes>
     <TitledPane animated="false" text="Requisitos">
       <content>
@@ -203,7 +203,7 @@
                         <TreeView fx:id="tvValidacion" BorderPane.alignment="CENTER" />
                      </center>
                      <top>
-                        <Button fx:id="btnComprobar" mnemonicParsing="false" onAction="#handleComprobarButtonAction" text="Comprobar" BorderPane.alignment="TOP_RIGHT" />
+                        <Button fx:id="btnComprobar" mnemonicParsing="false" onAction="#handleButtonAction" text="Comprobar" BorderPane.alignment="TOP_RIGHT" />
                      </top>
                   </BorderPane>
                </children></AnchorPane>
