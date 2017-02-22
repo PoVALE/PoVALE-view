@@ -157,8 +157,7 @@ public class FXMLController implements Initializable {
                     rootNode.setGraphic(incorrectIcon);
                 }
 
-                tvValidacion = new TreeView<>(rootNode);
-                tvValidacion.refresh();
+                tvValidacion.setRoot(rootNode);
                 
             }
         });
