@@ -10,8 +10,7 @@ import es.ucm.povale.assertInformation.AssertInformation;
 import es.ucm.povale.assertion.Assertion;
 import es.ucm.povale.entity.Entity;
 import es.ucm.povale.environment.Environment;
-import es.ucm.povale.example.Main;
-import es.ucm.povale.parameters.ParameterEditor;
+import es.ucm.povale.parameter.ParameterEditor;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,9 +40,6 @@ public class FXMLController implements Initializable {
 
     public FXMLController() {
     }
-
-    private Main main;
-
     private List<Var> environmentVariables;
     private List<Label> variableNames;
     private List<Label> variableDescriptions;
@@ -137,6 +133,7 @@ public class FXMLController implements Initializable {
     // This method is called by the FXMLLoader when initialization is complete
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
         btnComprobar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -161,6 +158,8 @@ public class FXMLController implements Initializable {
                 }
 
                 tvValidacion = new TreeView<>(rootNode);
+                tvValidacion.refresh();
+                
             }
         });
 
@@ -222,6 +221,8 @@ public class FXMLController implements Initializable {
     }
 
     public void initializeVariables() {
+        
+        createLists();
 
         if (this.environment.getVariables().size() > 9) {
             //throw error
@@ -233,7 +234,8 @@ public class FXMLController implements Initializable {
             variableNames.get(i).setText(list.get(i).getLabel());
             variableDescriptions.get(i).setText(list.get(i).getDescription());
 
-            ParameterEditor<? extends Entity> editor = environment.getParamEditor(list.get(i).getType()).getEditor(list.get(i).getType(), list.get(i).getParameters());
+            ParameterEditor<? extends Entity> editor;
+            editor = environment.getParamEditor(list.get(i).getType()).getEditor(list.get(i).getType(), list.get(i).getParameters());
             editor.setStage(this.stage);
             panes.get(i).getChildren().add(editor.getPane());
         }

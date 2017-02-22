@@ -2,9 +2,11 @@
 <spec>
     
     <import>es.ucm.povaleFiles.FilesPlugin</import>
+    <import>es.ucm.povale.parameter.CorePlugin</import>
+    
     <rootFile></rootFile>
     <var>
-        <label>Identificador del grupo</label>
+        <label>Identificador</label>
         <name>nombre_grupo</name>
         <desc>Formato: LXXGXX </desc>
         <type>StringEntity</type>
@@ -44,7 +46,6 @@
         <assert>
             <exist msg="Alguno de los elementos de (1,3,6) ha de ser igual a 7">
                 <variable>x</variable>
-                
                 <listTerm>
                     <literalInteger>1</literalInteger>
                     <literalInteger>3</literalInteger>

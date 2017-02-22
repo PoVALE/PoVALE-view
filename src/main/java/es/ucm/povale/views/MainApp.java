@@ -1,7 +1,7 @@
 package es.ucm.povale.views;
 
+import es.ucm.povale.entity.IntegerEntity;
 import es.ucm.povale.environment.Environment;
-import es.ucm.povale.example.Main;
 import es.ucm.povale.plugin.Import;
 import es.ucm.povale.reader.XMLParser;
 import java.io.InputStream;
@@ -16,15 +16,14 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
     
-    private static Environment environment;
+    private Environment environment;
     
     @Override
     public void start(Stage stage) throws Exception {
         
+        this.environment = new Environment(); 
         
-        InputStream is = Main.class.getClassLoader().getResourceAsStream("existDocument.xml");
-        
-        System.out.println(is);
+        InputStream is = MainApp.class.getClassLoader().getResourceAsStream("existDocument.xml");
         
         XMLParser parser = new XMLParser();
         parser.parseXMLFile(is);
@@ -32,32 +31,35 @@ public class MainApp extends Application {
         List<String> plugins = parser.getMyPlugins();
         if (!plugins.get(0).equalsIgnoreCase("")) {
             for (String a : plugins) {
-                Import plugin = new Import(a, environment);
+                Import plugin = new Import(a, this.environment);
             }
         }
 
-        environment.addParamEditors();
-
-        environment.addVariables(parser.getMyVars());
-
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/FXMLDocument.fxml"));   
         
-        FXMLController controller = fxmlLoader.<FXMLController>getController();
+        //FXMLController controller = fxmlLoader.<FXMLController>getController();
         
+        FXMLController controller = new FXMLController();
+        
+        fxmlLoader.setController(controller);
+                
         Parent root = (Parent)fxmlLoader.load(); 
-
-        controller.setAssertions(parser.getMyAsserts());
         
         Scene scene = new Scene(root); 
         
         scene.getStylesheets().add("/styles/Styles.css");
         stage.setTitle("PoVALE");
         stage.setScene(scene);
-       
+        
+        environment.getValues().put("x", new IntegerEntity(3));
+         
+        this.environment.addParamEditors();
+        this.environment.addVariables(parser.getMyVars());
+        controller.setStage(stage);
+        controller.setEnvironment(this.environment);
+        controller.setAssertions(parser.getMyAsserts());
         controller.initializeVariables();
         controller.setStage(stage);
-        
-        System.out.println(controller);
         
         stage.show();
     }
