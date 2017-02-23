@@ -44,14 +44,14 @@
     
     <assertion>
         <assert>
-            <exist msg="Alguno de los elementos de (1,3,6) ha de ser igual a 7">
+            <exist>
                 <variable>x</variable>
                 <listTerm>
                     <literalInteger>1</literalInteger>
-                    <literalInteger>3</literalInteger>
+                    <literalInteger>7</literalInteger>
                     <literalInteger>6</literalInteger>
                 </listTerm>
-                <equals msg="${x} es igual a 7">
+                <equals>
                     <lhs>
                         <variable>x</variable>
                     </lhs>
@@ -62,7 +62,7 @@
             </exist>
         </assert>
         <assert>
-            <assertTrue> </assertTrue>
+            <assertTrue msg="probando"> </assertTrue>
         </assert>
         <assert>
             <assertFalse> </assertFalse>

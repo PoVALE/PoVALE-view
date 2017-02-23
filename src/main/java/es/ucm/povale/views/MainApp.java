@@ -53,12 +53,14 @@ public class MainApp extends Application {
         
         environment.getValues().put("x", new IntegerEntity(3));
          
-        this.environment.addParamEditors();
+//        this.environment.addParamEditors();
         this.environment.addVariables(parser.getMyVars());
         controller.setStage(stage);
         controller.setEnvironment(this.environment);
         controller.setAssertions(parser.getMyAsserts());
+        controller.setRequirements(parser.getMyRequirements());
         controller.initializeVariables();
+        controller.initializeRequirements();
         controller.setStage(stage);
         
         stage.show();

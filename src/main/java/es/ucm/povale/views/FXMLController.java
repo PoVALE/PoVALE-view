@@ -11,6 +11,7 @@ import es.ucm.povale.assertion.Assertion;
 import es.ucm.povale.entity.Entity;
 import es.ucm.povale.environment.Environment;
 import es.ucm.povale.parameter.ParameterEditor;
+import es.ucm.povale.reader.AssertNode;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,10 +47,10 @@ public class FXMLController implements Initializable {
     private List<Separator> lines;
     private List<Pane> panes;
     private List<Assertion> assertions;
-
+    private AssertNode myRequirements;
     private Stage stage;
-
     private Environment environment;
+    private TreeItem<String> requirements;
 
     @FXML
     private Label lblName1;
@@ -134,6 +135,9 @@ public class FXMLController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
+        tvRequisitos.onEditStartProperty();
+        tvRequisitos.setRoot(requirements);
+        
         btnComprobar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -156,12 +160,12 @@ public class FXMLController implements Initializable {
                 if (!result) {
                     rootNode.setGraphic(incorrectIcon);
                 }
-
                 tvValidacion.setRoot(rootNode);
                 
             }
         });
 
+        
     }
 
     public void setStage(Stage mainStage) {
@@ -218,6 +222,44 @@ public class FXMLController implements Initializable {
     public void setEnvironment(Environment e) {
         this.environment = e;
     }
+    
+        void setRequirements(AssertNode myRequirements) {
+            this.myRequirements = myRequirements;
+    }
+        
+        
+    public TreeItem<String> createBranch(AssertNode node) {
+        TreeItem<String> assertRoot;
+        TreeItem<String> assertBranch;//sub arbol para descendientes
+        //1. creamos raiz
+        assertRoot = new TreeItem<>(node.getMessage());
+
+        //2. si no es hoja crear hijos
+        if (!node.isLeaf()) {
+            for (int i = 0; i < node.getChildren().size(); i++) {
+                assertBranch = createBranch(node.getChildren().get(i));
+                assertRoot.getChildren().add(assertBranch);
+            }
+        }
+        return assertRoot;
+    }  
+        
+        
+    public void initializeRequirements(){
+        
+        TreeItem<String> rootNode = new TreeItem<>(myRequirements.getMessage());
+
+        rootNode.setExpanded(true);
+
+        for (AssertNode a : myRequirements.getChildren()) {
+            TreeItem<String> assertBranch = createBranch(a);
+            rootNode.getChildren().add(assertBranch);
+        }
+        
+        requirements = rootNode;
+        tvRequisitos = new TreeView<>(rootNode);
+        tvRequisitos.setRoot(requirements);
+    }
 
     public void initializeVariables() {
         
@@ -234,9 +276,9 @@ public class FXMLController implements Initializable {
             variableDescriptions.get(i).setText(list.get(i).getDescription());
 
             ParameterEditor<? extends Entity> editor;
-            editor = environment.getParamEditor(list.get(i).getType()).getEditor(list.get(i).getType(), list.get(i).getParameters());
-            editor.setStage(this.stage);
-            panes.get(i).getChildren().add(editor.getPane());
+//            editor = environment.getParamEditor(list.get(i).getType()).getEditor(list.get(i).getType(), list.get(i).getParameters());
+//            editor.setStage(this.stage);
+//            panes.get(i).getChildren().add(editor.getPane());
         }
 
         for (int j = list.size(); j < 8; j++) {
@@ -279,7 +321,7 @@ public class FXMLController implements Initializable {
         rootNode.setExpanded(true);
 
         for (Assertion a : assertions) {
-            TreeItem<String> assertBranch = null;
+            TreeItem<String> assertBranch;
             AssertInformation assertInfo = a.check(environment);
             if (!assertInfo.getResult()) {
                 result = false;
