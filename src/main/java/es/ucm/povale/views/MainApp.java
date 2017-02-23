@@ -1,6 +1,7 @@
 package es.ucm.povale.views;
 
 import es.ucm.povale.entity.IntegerEntity;
+import es.ucm.povale.entity.StringEntity;
 import es.ucm.povale.environment.Environment;
 import es.ucm.povale.plugin.Import;
 import es.ucm.povale.reader.XMLParser;
@@ -51,9 +52,9 @@ public class MainApp extends Application {
         stage.setTitle("PoVALE");
         stage.setScene(scene);
         
-        environment.getValues().put("x", new IntegerEntity(3));
+        environment.getValues().put("x", new StringEntity(null));
          
-//        this.environment.addParamEditors();
+        this.environment.addParamEditors();
         this.environment.addVariables(parser.getMyVars());
         controller.setStage(stage);
         controller.setEnvironment(this.environment);

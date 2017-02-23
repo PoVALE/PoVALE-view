@@ -11,10 +11,13 @@ import es.ucm.povale.assertion.Assertion;
 import es.ucm.povale.entity.Entity;
 import es.ucm.povale.environment.Environment;
 import es.ucm.povale.parameter.ParameterEditor;
+import es.ucm.povale.plugin.PluginInfo;
 import es.ucm.povale.reader.AssertNode;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
@@ -41,7 +44,6 @@ public class FXMLController implements Initializable {
 
     public FXMLController() {
     }
-    private List<Var> environmentVariables;
     private List<Label> variableNames;
     private List<Label> variableDescriptions;
     private List<Separator> lines;
@@ -51,6 +53,7 @@ public class FXMLController implements Initializable {
     private Stage stage;
     private Environment environment;
     private TreeItem<String> requirements;
+    private Map<Var, ParameterEditor<? extends Entity>> paramEditors;
 
     @FXML
     private Label lblName1;
@@ -125,6 +128,9 @@ public class FXMLController implements Initializable {
 
     @FXML
     private Button btnComprobar;
+    
+    @FXML
+    private Button btnEnviar;
 
     @FXML
     public void initialize() {
@@ -134,38 +140,6 @@ public class FXMLController implements Initializable {
     // This method is called by the FXMLLoader when initialization is complete
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
-        tvRequisitos.onEditStartProperty();
-        tvRequisitos.setRoot(requirements);
-        
-        btnComprobar.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                boolean result = true;
-                Node correctIcon = new ImageView(new Image("file:src/main/resources/correct.png"));
-                Node incorrectIcon = new ImageView(new Image("file:src/main/resources/incorrect.png"));
-                TreeItem<String> rootNode = new TreeItem<>("Se cumplen los siquientes requisitos:", correctIcon);
-
-                rootNode.setExpanded(true);
-
-                for (Assertion a : assertions) {
-                    TreeItem<String> assertBranch = null;
-                    AssertInformation assertInfo = a.check(environment);
-                    if (!assertInfo.getResult()) {
-                        result = false;
-                    }
-                    assertBranch = createBranch(assertInfo);
-                    rootNode.getChildren().add(assertBranch);
-                }
-                if (!result) {
-                    rootNode.setGraphic(incorrectIcon);
-                }
-                tvValidacion.setRoot(rootNode);
-                
-            }
-        });
-
-        
     }
 
     public void setStage(Stage mainStage) {
@@ -177,6 +151,7 @@ public class FXMLController implements Initializable {
         variableDescriptions = new LinkedList<>();
         lines = new LinkedList<>();
         panes = new LinkedList<>();
+        paramEditors = new HashMap<>();
 
         variableNames.add(lblName1);
         variableDescriptions.add(lblDesc1);
@@ -225,6 +200,7 @@ public class FXMLController implements Initializable {
     
         void setRequirements(AssertNode myRequirements) {
             this.myRequirements = myRequirements;
+            this.initializeRequirements();
     }
         
         
@@ -256,18 +232,12 @@ public class FXMLController implements Initializable {
             rootNode.getChildren().add(assertBranch);
         }
         
-        requirements = rootNode;
-        tvRequisitos = new TreeView<>(rootNode);
-        tvRequisitos.setRoot(requirements);
+        tvRequisitos.setRoot(rootNode);
     }
 
     public void initializeVariables() {
         
         createLists();
-
-        if (this.environment.getVariables().size() > 9) {
-            //throw error
-        }
 
         List<Var> list = this.environment.getVariables().stream().collect(Collectors.toList());
 
@@ -275,10 +245,12 @@ public class FXMLController implements Initializable {
             variableNames.get(i).setText(list.get(i).getLabel());
             variableDescriptions.get(i).setText(list.get(i).getDescription());
 
-            ParameterEditor<? extends Entity> editor;
-//            editor = environment.getParamEditor(list.get(i).getType()).getEditor(list.get(i).getType(), list.get(i).getParameters());
-//            editor.setStage(this.stage);
-//            panes.get(i).getChildren().add(editor.getPane());
+            ParameterEditor<? extends Entity> editor = environment.getParamEditor(list.get(i).getType()).getEditor(list.get(i).getType(), list.get(i).getParameters());
+            editor.setStage(this.stage);
+            panes.get(i).getChildren().add(editor.getPane());
+            
+            this.paramEditors.put(list.get(i), editor);
+                
         }
 
         for (int j = list.size(); j < 8; j++) {
@@ -333,7 +305,15 @@ public class FXMLController implements Initializable {
             rootNode.setGraphic(incorrectIcon);
         }
 
-        tvValidacion = new TreeView<>(rootNode);
+        tvValidacion.setRoot(rootNode);
+    }
+    
+    @FXML
+    private void handleButtonActionEnviar(ActionEvent event) {
+
+        for(Var e :environment.getVariables() ){
+            environment.addVariable(e, paramEditors.get(e).getEntity());
+        }
     }
 
 }
