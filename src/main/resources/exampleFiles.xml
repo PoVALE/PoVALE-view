@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spec>
+    
+    <import>es.ucm.povaleFiles.FilesPlugin</import>
+    <import>es.ucm.povale.plugin.CorePlugin</import>
+    
+    <rootFile></rootFile>
+    <var>
+        <label>Identificador</label>
+        <name>nombre_grupo</name>
+        <desc>Formato: LXXGXX </desc>
+        <type>StringEntity</type>
+    </var>
+    <var>
+        <label>Nombre Integrante 1</label>
+        <name>nombre_p1</name>
+        <desc>Introduzca nombre y apellidos</desc>
+        <type>StringEntity</type>
+    </var>
+    <var>
+        <label>Nombre Integrante 2</label>
+        <name>nombre_p3</name>
+        <desc>Introduzca nombre y apellidos </desc>
+        <type>StringEntity</type>
+    </var>
+    <var>
+        <label>Número de entrega</label>
+        <name>nombre_p3</name>
+        <desc>Introduzca el número de entrega (0,3) </desc>
+        <type>IntegerEntity</type>
+    </var>
+    <var>
+        <label>Directorio de la entrega</label>
+        <name>dirPrincipal</name>
+        <desc>Seleccione su carpeta src</desc>
+        <type>DirectoryEntity</type>
+    </var>
+
+	<assertion>
+        <assert>
+        	<existOne>
+                    <variable>x</variable>
+                    <functionApplication>
+                        <function>children</function>
+                        <listTerm>
+                            <variable>dirPrincipal</variable>
+                        </listTerm>
+                    </functionApplication>
+                    <and>
+                	<equals>
+                        <lhs>
+                        <functionApplication>
+                            <function>base-name</function>
+                            <listTerm>
+                                <variable>x</variable>
+                            </listTerm>
+                        </functionApplication>
+                        </lhs>
+                        <rhs>
+                            <literalString>src</literalString>
+                        </rhs>
+                    </equals>
+
+                    <predicateApplication>
+                        <predicate>is-directory?</predicate>
+                        <listTerm>
+                            <variable>x</variable>
+                        </listTerm>        
+                    </predicateApplication>
+
+                    <forAll>
+                        <variable>y</variable>
+
+                        <functionApplication>
+                            <function>files-rec</function>lue
+                            <listTerm>
+                                <variable>dirPrincipal</variable>
+                            </listTerm>
+                        </functionApplication>
+
+                        <equals>
+                            <lhs>
+                                <functionApplication>
+                                    <function>extension</function>
+                                    <listTerm>
+                                        <variable>y</variable>
+                                    </listTerm>
+                                </functionApplication>
+                            </lhs>
+                            <rhs>
+                                <literalString>java</literalString>
+                            </rhs>
+                        </equals>
+                    </forAll>  
+
+                </and>
+            </existOne>    
+        </assert>
+    </assertion>
+</spec>
+

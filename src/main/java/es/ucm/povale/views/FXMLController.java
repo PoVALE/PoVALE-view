@@ -5,7 +5,7 @@
  */
 package es.ucm.povale.views;
 
-import es.ucm.povale.Var;
+import es.ucm.povale.variable.Var;
 import es.ucm.povale.assertInformation.AssertInformation;
 import es.ucm.povale.assertion.Assertion;
 import es.ucm.povale.entity.Entity;
@@ -311,7 +311,7 @@ public class FXMLController implements Initializable {
     @FXML
     private void handleButtonActionEnviar(ActionEvent event) {
 
-        for(Var e :environment.getVariables() ){
+        for(Var e :environment.getVariables()){
             environment.addVariable(e, paramEditors.get(e).getEntity());
         }
     }

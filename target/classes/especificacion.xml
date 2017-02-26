@@ -31,13 +31,14 @@
             </assert>
 		
 		<!-- Or: -->
-            <assert>
+                <assert>
                 <or>
-                    <orAssert> condicion 1 </orAssert>
-				<orAssert> condicion ... </orAssert>
-				<orAssert> condicion n </orAssert>
-			</or>
-		</assert>
+                    <>condicion 1</>
+                    <> condicion ... </>
+                    <> condicion n </>
+                </or>
+                </assert>
+            
 		
 		<!-- Not: -->
 		<assert>	

@@ -2,7 +2,7 @@
 <spec>
     
     <import>es.ucm.povaleFiles.FilesPlugin</import>
-    <import>es.ucm.povale.parameter.CorePlugin</import>
+    <import>es.ucm.povale.plugin.CorePlugin</import>
     
     <rootFile></rootFile>
     <var>
@@ -34,6 +34,11 @@
         <name>dirPrincipal</name>
         <desc>Seleccione su carpeta src</desc>
         <type>DirectoryEntity</type>
+        <params>
+            <param name='type'>Java</param>
+            <param name='file'>Java</param>
+        </params>
+        
     </var>
     
     
