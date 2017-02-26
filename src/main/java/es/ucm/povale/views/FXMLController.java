@@ -312,7 +312,7 @@ public class FXMLController implements Initializable {
     private void handleButtonActionEnviar(ActionEvent event) {
 
         for(Var e :environment.getVariables()){
-            environment.addVariable(e, paramEditors.get(e).getEntity());
+            environment.addValue(e, paramEditors.get(e).getEntity());
         }
     }
 
