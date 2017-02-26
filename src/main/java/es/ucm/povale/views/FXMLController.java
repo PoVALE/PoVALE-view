@@ -25,6 +25,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.Label;
@@ -54,6 +56,7 @@ public class FXMLController implements Initializable {
     private Environment environment;
     private TreeItem<String> requirements;
     private Map<Var, ParameterEditor<? extends Entity>> paramEditors;
+    boolean completed = false;
 
     @FXML
     private Label lblName1;
@@ -286,34 +289,70 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
-        boolean result = true;
-        Node correctIcon = new ImageView(new Image("file:src/main/resources/correct.png"));
-        Node incorrectIcon = new ImageView(new Image("file:src/main/resources/incorrect.png"));
-        TreeItem<String> rootNode = new TreeItem<>("Se cumplen los siquientes requisitos:", correctIcon);
+        
+        if(!completed){
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("¡Debe rellenar los datos de entrada!");
+            alert.showAndWait();
+        }
+        else{
+            boolean result = true;
+            Node correctIcon = new ImageView(new Image("file:src/main/resources/correct.png"));
+            Node incorrectIcon = new ImageView(new Image("file:src/main/resources/incorrect.png"));
+            TreeItem<String> rootNode = new TreeItem<>("Se cumplen los siquientes requisitos:", correctIcon);
 
-        rootNode.setExpanded(true);
+            rootNode.setExpanded(true);
 
-        for (Assertion a : assertions) {
-            TreeItem<String> assertBranch;
-            AssertInformation assertInfo = a.check(environment);
-            if (!assertInfo.getResult()) {
-                result = false;
+            for (Assertion a : assertions) {
+                TreeItem<String> assertBranch;
+                AssertInformation assertInfo = a.check(environment);
+                if (!assertInfo.getResult()) {
+                    result = false;
+                }
+                assertBranch = createBranch(assertInfo);
+                rootNode.getChildren().add(assertBranch);
             }
-            assertBranch = createBranch(assertInfo);
-            rootNode.getChildren().add(assertBranch);
-        }
-        if (!result) {
-            rootNode.setGraphic(incorrectIcon);
-        }
+            if (!result) {
+                rootNode.setGraphic(incorrectIcon);
+            }
 
-        tvValidacion.setRoot(rootNode);
+            tvValidacion.setRoot(rootNode);
+        }
     }
     
     @FXML
     private void handleButtonActionEnviar(ActionEvent event) {
-
+        
+      
+        
         for(Var e :environment.getVariables()){
+           if(paramEditors.get(e).isValid()){
+               completed = true;
+           }
+           else{
+               completed = false;
+           }
+        }
+        
+        if(completed == true){
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Confirmación");
+            alert.setHeaderText(null);
+            alert.setContentText("¡Datos enviados!");
+            alert.showAndWait();
+            
+            for(Var e :environment.getVariables()){
             environment.addValue(e, paramEditors.get(e).getEntity());
+            }
+        }
+        else{
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("¡Se deben rellenar todos los campos!");
+            alert.showAndWait();
         }
     }
 
