@@ -209,7 +209,7 @@ public class FXMLController implements Initializable {
         TreeItem<String> assertBranch;//sub arbol para descendientes
         //1. creamos raiz
         assertRoot = new TreeItem<>(node.getMessage());
-
+        assertRoot.setExpanded(true);
         //2. si no es hoja crear hijos
         if (!node.isLeaf()) {
             for (int i = 0; i < node.getChildren().size(); i++) {
@@ -272,7 +272,8 @@ public class FXMLController implements Initializable {
             Node incorrectIcon = new ImageView(new Image("file:src/main/resources/incorrect.png"));
             assertRoot = new TreeItem<>(node.getMessage(), incorrectIcon);
         }
-
+        
+        assertRoot.setExpanded(true);
         //2. si no es hoja crear hijos
         if (!node.isLeaf()) {
             for (int i = 0; i < node.getChildren().size(); i++) {
