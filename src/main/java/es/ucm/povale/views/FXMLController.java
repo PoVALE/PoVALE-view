@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
@@ -29,6 +30,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
@@ -57,7 +59,8 @@ public class FXMLController implements Initializable {
     private Environment environment;
     private TreeItem<String> requirements;
     private Map<Var, ParameterEditor<? extends Entity>> paramEditors;
-    boolean completed = false;
+    private boolean completed = false;
+    private boolean result;
 
     @FXML
     private Label lblName1;
@@ -132,12 +135,13 @@ public class FXMLController implements Initializable {
 
     @FXML
     private Button btnComprobar;
-    
+
     @FXML
     private Button btnEnviar;
-    
+
     @FXML
     private Button btnEnviarEntrega;
+
     @FXML
     public void initialize() {
         createLists();
@@ -151,10 +155,11 @@ public class FXMLController implements Initializable {
     public void setStage(Stage mainStage) {
         this.stage = mainStage;
     }
-    
-    private boolean result;
-    
+
     private void createLists() {
+        
+        btnEnviarEntrega.setDisable(true);
+         
         variableNames = new LinkedList<>();
         variableDescriptions = new LinkedList<>();
         lines = new LinkedList<>();
@@ -205,13 +210,12 @@ public class FXMLController implements Initializable {
     public void setEnvironment(Environment e) {
         this.environment = e;
     }
-    
-        void setRequirements(AssertNode myRequirements) {
-            this.myRequirements = myRequirements;
-            this.initializeRequirements();
+
+    void setRequirements(AssertNode myRequirements) {
+        this.myRequirements = myRequirements;
+        this.initializeRequirements();
     }
-        
-        
+
     public TreeItem<String> createBranch(AssertNode node) {
         TreeItem<String> assertRoot;
         TreeItem<String> assertBranch;//sub arbol para descendientes
@@ -226,11 +230,10 @@ public class FXMLController implements Initializable {
             }
         }
         return assertRoot;
-    }  
-        
-        
-    public void initializeRequirements(){
-        
+    }
+
+    public void initializeRequirements() {
+
         TreeItem<String> rootNode = new TreeItem<>(myRequirements.getMessage());
 
         rootNode.setExpanded(true);
@@ -239,12 +242,12 @@ public class FXMLController implements Initializable {
             TreeItem<String> assertBranch = createBranch(a);
             rootNode.getChildren().add(assertBranch);
         }
-        
+
         tvRequisitos.setRoot(rootNode);
     }
 
     public void initializeVariables() {
-        
+
         createLists();
 
         List<Var> list = this.environment.getVariables().stream().collect(Collectors.toList());
@@ -256,9 +259,9 @@ public class FXMLController implements Initializable {
             ParameterEditor<? extends Entity> editor = environment.getParamEditor(list.get(i).getType()).getEditor(list.get(i).getType(), list.get(i).getParameters());
             editor.setStage(this.stage);
             panes.get(i).getChildren().add(editor.getPane());
-            
+
             this.paramEditors.put(list.get(i), editor);
-                
+
         }
 
         for (int j = list.size(); j < 8; j++) {
@@ -280,7 +283,7 @@ public class FXMLController implements Initializable {
             Node incorrectIcon = new ImageView(new Image("file:src/main/resources/incorrect.png"));
             assertRoot = new TreeItem<>(node.getMessage(), incorrectIcon);
         }
-        
+
         assertRoot.setExpanded(true);
         //2. si no es hoja crear hijos
         if (!node.isLeaf()) {
@@ -294,15 +297,16 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
+
         
-        if(!completed){
+        
+        if (!completed) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
             alert.setContentText("¡Debe rellenar los datos de entrada!");
             alert.showAndWait();
-        }
-        else{
+        } else {
             result = true;
             Node correctIcon = new ImageView(new Image("file:src/main/resources/correct.png"));
             Node incorrectIcon = new ImageView(new Image("file:src/main/resources/incorrect.png"));
@@ -324,35 +328,32 @@ public class FXMLController implements Initializable {
             }
 
             tvValidacion.setRoot(rootNode);
+            this.btnEnviarEntrega.setDisable(false);
         }
     }
-    
+
     @FXML
     private void handleButtonActionEnviar(ActionEvent event) {
-        
-      
-        
-        for(Var e :environment.getVariables()){
-           if(paramEditors.get(e).isValid()){
-               completed = true;
-           }
-           else{
-               completed = false;
-           }
+
+        for (Var e : environment.getVariables()) {
+            if (paramEditors.get(e).isValid()) {
+                completed = true;
+            } else {
+                completed = false;
+            }
         }
-        
-        if(completed == true){
+
+        if (completed == true) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Confirmación");
             alert.setHeaderText(null);
             alert.setContentText("¡Datos enviados!");
             alert.showAndWait();
-            
-            for(Var e :environment.getVariables()){
-            environment.addValue(e, paramEditors.get(e).getEntity());
+
+            for (Var e : environment.getVariables()) {
+                environment.addValue(e, paramEditors.get(e).getEntity());
             }
-        }
-        else{
+        } else {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
@@ -360,22 +361,26 @@ public class FXMLController implements Initializable {
             alert.showAndWait();
         }
     }
-    
-        @FXML
-        private void handleButtonActionEnviarEntrega(ActionEvent event) {
-            if(result){
+
+    @FXML
+    private void handleButtonActionEnviarEntrega(ActionEvent event) {
+        
+        if (!result) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Resultados incorrectos");
+            alert.setHeaderText(null);
+            alert.setContentText("¿Desea enviar la entrega?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
                 XMLExport xml = new XMLExport(this.environment);
                 xml.export();
-                
-            }
-            else{
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Deben cumplirse los requisitos dados");
-                alert.showAndWait();
             }
         }
-        
+        else{    
+            XMLExport xml = new XMLExport(this.environment);
+            xml.export();
+        }
+    }
 
 }

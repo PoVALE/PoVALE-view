@@ -4,7 +4,9 @@
     <import>es.ucm.povaleFiles.FilesPlugin</import>
     <import>es.ucm.povale.plugin.CorePlugin</import>
     
+    <specId></specId>
     <rootFile></rootFile>
+    
     <var>
         <label>Identificador</label>
         <name>nombre_grupo</name>
