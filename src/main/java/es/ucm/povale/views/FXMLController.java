@@ -10,6 +10,7 @@ import es.ucm.povale.assertInformation.AssertInformation;
 import es.ucm.povale.assertion.Assertion;
 import es.ucm.povale.entity.Entity;
 import es.ucm.povale.environment.Environment;
+import es.ucm.povale.export.XMLExport;
 import es.ucm.povale.parameter.ParameterEditor;
 import es.ucm.povale.plugin.PluginInfo;
 import es.ucm.povale.reader.AssertNode;
@@ -134,7 +135,9 @@ public class FXMLController implements Initializable {
     
     @FXML
     private Button btnEnviar;
-
+    
+    @FXML
+    private Button btnEnviarEntrega;
     @FXML
     public void initialize() {
         createLists();
@@ -148,7 +151,9 @@ public class FXMLController implements Initializable {
     public void setStage(Stage mainStage) {
         this.stage = mainStage;
     }
-
+    
+    private boolean result;
+    
     private void createLists() {
         variableNames = new LinkedList<>();
         variableDescriptions = new LinkedList<>();
@@ -298,7 +303,7 @@ public class FXMLController implements Initializable {
             alert.showAndWait();
         }
         else{
-            boolean result = true;
+            result = true;
             Node correctIcon = new ImageView(new Image("file:src/main/resources/correct.png"));
             Node incorrectIcon = new ImageView(new Image("file:src/main/resources/incorrect.png"));
             TreeItem<String> rootNode = new TreeItem<>("Se cumplen los siquientes requisitos:", correctIcon);
@@ -355,5 +360,22 @@ public class FXMLController implements Initializable {
             alert.showAndWait();
         }
     }
+    
+        @FXML
+        private void handleButtonActionEnviarEntrega(ActionEvent event) {
+            if(result){
+                XMLExport xml = new XMLExport(this.environment);
+                xml.export();
+                
+            }
+            else{
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Deben cumplirse los requisitos dados");
+                alert.showAndWait();
+            }
+        }
+        
 
 }

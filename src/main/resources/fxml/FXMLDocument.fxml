@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
@@ -15,20 +19,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <panes>
-    <TitledPane animated="false" text="Requisitos">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <BorderPane layoutX="183.0" layoutY="20.0" prefHeight="318.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <center>
-                        <TreeView fx:id="tvRequisitos" BorderPane.alignment="CENTER" />
-                     </center>
-                  </BorderPane>
-               </children></AnchorPane>
-      </content>
-    </TitledPane>
     <TitledPane animated="false" text="Datos de entrada">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -200,6 +192,21 @@
                      <top>
                         <Button fx:id="btnComprobar" mnemonicParsing="false" onAction="#handleButtonAction" text="Comprobar" BorderPane.alignment="TOP_RIGHT" />
                      </top>
+                     <left>
+                        <Button fx:id="btnEnviarEntrega" alignment="TOP_RIGHT" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleButtonActionEnviarEntrega" text="Enviar" BorderPane.alignment="TOP_RIGHT" />
+                     </left>
+                  </BorderPane>
+               </children></AnchorPane>
+      </content>
+    </TitledPane>
+    <TitledPane animated="false" text="Requisitos">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <BorderPane layoutX="183.0" layoutY="20.0" prefHeight="318.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <center>
+                        <TreeView fx:id="tvRequisitos" BorderPane.alignment="CENTER" />
+                     </center>
                   </BorderPane>
                </children></AnchorPane>
       </content>
