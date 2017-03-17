@@ -22,7 +22,7 @@ public class MainApp extends Application {
         
         this.environment = new Environment(); 
         
-        InputStream is = MainApp.class.getClassLoader().getResourceAsStream("exampleFiles.xml");
+        InputStream is = MainApp.class.getClassLoader().getResourceAsStream("existPrueba1.xml");
         
         XMLParser parser = new XMLParser();
         parser.parseXMLFile(is);

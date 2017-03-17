@@ -4,6 +4,7 @@
     <import>es.ucm.povaleFiles.FilesPlugin</import>
     <import>es.ucm.povale.plugin.CorePlugin</import>
     
+    
     <var>
         <label>Identificador</label>
         <name>nombre_grupo</name>
@@ -30,9 +31,9 @@
     </var>
     <var>
         <label>Directorio de la entrega</label>
-        <name>filePrincipal</name>
+        <name>dirPrincipal</name>
         <desc>Seleccione su carpeta src</desc>
-        <type>FileEntity</type>
+        <type>DirectoryEntity</type>
     </var>
 
 	<assertion>

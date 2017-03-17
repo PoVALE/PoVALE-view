@@ -10,7 +10,6 @@ import es.ucm.povale.assertInformation.AssertInformation;
 import es.ucm.povale.assertion.Assertion;
 import es.ucm.povale.entity.Entity;
 import es.ucm.povale.environment.Environment;
-import es.ucm.povale.export.XMLExport;
 import es.ucm.povale.parameter.ParameterEditor;
 import es.ucm.povale.plugin.PluginInfo;
 import es.ucm.povale.reader.AssertNode;

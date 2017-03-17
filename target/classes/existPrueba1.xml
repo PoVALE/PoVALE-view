@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spec>
     
-    <import></import>
-    <rootFile></rootFile>
+   <import>es.ucm.povaleFiles.FilesPlugin</import>
+    <import>es.ucm.povale.plugin.CorePlugin</import>
+    <!--
     <var>
-        <label>Nombre Grupo</label>
-        <longdesc>String</longdesc>
-        <name>nombreGrupo</name>
+        <label>Identificador</label>
+        <name>nombre_grupo</name>
+        <desc>Formato: LXXGXX </desc>
         <type>StringEntity</type>
-        
+    </var>
+    <var>
+        <label>Nombre Integrante 1</label>
+        <name>nombre_p1</name>
+        <desc>Introduzca nombre y apellidos</desc>
+        <type>StringEntity</type>
+    </var>
+    <var>
+        <label>Nombre Integrante 2</label>
+        <name>nombre_p3</name>
+        <desc>Introduzca nombre y apellidos </desc>
+        <type>StringEntity</type>
+    </var>
+    <var>
+        <label>Número de entrega</label>
+        <name>nombre_p3</name>
+        <desc>Introduzca el número de entrega (0,3) </desc>
+        <type>IntegerEntity</type>
+    </var>
+    -->
+    <var>
+        <label>Fichero de la entrega</label>
+        <name>filePrincipal</name>
+        <desc>Seleccione su fichero</desc>
+        <type>FileEntity</type>
     </var>
     
     
