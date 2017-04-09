@@ -101,7 +101,9 @@ public class XMLExport {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(document);
-            StreamResult result =  new StreamResult(new File("/Users/laurahernandoserrano/Desktop/spec8.xml"));
+            //StreamResult result =  new StreamResult(new File("/Users/laurahernandoserrano/Desktop/spec8.xml"));
+            StreamResult result =  new StreamResult(new File("spec8.xml"));
+            
             transformer.transform(source, result);
             
             

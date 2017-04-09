@@ -372,13 +372,17 @@ public class FXMLController implements Initializable {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
-                XMLExport xml = new XMLExport(this.environment);
-                xml.export();
+                //XMLExport xml = new XMLExport(this.environment);
+                //xml.export();
+                ZipExport zip = new ZipExport(this.environment);
+                zip.export();
             }
         }
         else{    
-            XMLExport xml = new XMLExport(this.environment);
-            xml.export();
+            //XMLExport xml = new XMLExport(this.environment);
+            //xml.export();
+                ZipExport zip = new ZipExport(this.environment);
+                zip.export();
         }
     }
 

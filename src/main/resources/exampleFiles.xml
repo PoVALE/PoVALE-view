@@ -19,13 +19,13 @@
     </var>
     <var>
         <label>Nombre Integrante 2</label>
-        <name>nombre_p3</name>
+        <name>nombre_p2</name>
         <desc>Introduzca nombre y apellidos </desc>
         <type>StringEntity</type>
     </var>
     <var>
         <label>Número de entrega</label>
-        <name>nombre_p3</name>
+        <name>num_entrega</name>
         <desc>Introduzca el número de entrega (0,3) </desc>
         <type>IntegerEntity</type>
     </var>
@@ -38,7 +38,7 @@
 
 	<assertion>
         <assert>
-        	<existOne>
+        	<exist>
                     <variable>x</variable>
                     <functionApplication>
                         <function>children</function>
@@ -68,7 +68,7 @@
                         </listTerm>        
                     </predicateApplication>
 
-                    <forAll>
+                    <exist>
                         <variable>y</variable>
 
                         <functionApplication>
@@ -91,10 +91,10 @@
                                 <literalString>java</literalString>
                             </rhs>
                         </equals>
-                    </forAll>  
+                    </exist>  
 
                 </and>
-            </existOne>    
+            </exist>    
         </assert>
     </assertion>
 </spec>
