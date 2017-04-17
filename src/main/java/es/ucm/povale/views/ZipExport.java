@@ -21,9 +21,9 @@ import java.util.zip.ZipOutputStream;
 public class ZipExport {
     private Environment environment;
     private String zipPath;
-    public ZipExport(Environment env){
+    public ZipExport(Environment env, String path){
         this.environment = env;
-        this.zipPath = "prueba.zip";
+        this.zipPath = path + "/prueba.zip";
     }
     
     public void export(){

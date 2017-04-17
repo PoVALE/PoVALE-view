@@ -11,8 +11,8 @@ import es.ucm.povale.assertion.Assertion;
 import es.ucm.povale.entity.Entity;
 import es.ucm.povale.environment.Environment;
 import es.ucm.povale.parameter.ParameterEditor;
-import es.ucm.povale.plugin.PluginInfo;
 import es.ucm.povale.reader.AssertNode;
+import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -22,7 +22,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -38,6 +37,8 @@ import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -273,8 +274,8 @@ public class FXMLController implements Initializable {
 
     public TreeItem<String> createBranch(AssertInformation node) {
         TreeItem<String> assertRoot;
-        TreeItem<String> assertBranch;//sub arbol para descendientes
-        //1. creamos raiz
+        TreeItem<String> assertBranch;
+
         if (node.getResult()) {
             Node correctIcon = new ImageView(new Image("file:src/main/resources/correct.png"));
             assertRoot = new TreeItem<>(node.getMessage(), correctIcon);
@@ -284,7 +285,7 @@ public class FXMLController implements Initializable {
         }
 
         assertRoot.setExpanded(true);
-        //2. si no es hoja crear hijos
+
         if (!node.isLeaf()) {
             for (int i = 0; i < node.getChildren().size(); i++) {
                 assertBranch = createBranch(node.getChildren().get(i));
@@ -297,8 +298,6 @@ public class FXMLController implements Initializable {
     @FXML
     private void handleButtonAction(ActionEvent event) {
 
-        
-        
         if (!completed) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
@@ -327,7 +326,7 @@ public class FXMLController implements Initializable {
             }
 
             tvValidacion.setRoot(rootNode);
-            this.btnEnviarEntrega.setDisable(false);
+            this.btnEnviarEntrega.setDisable(!result);
         }
     }
 
@@ -363,26 +362,34 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleButtonActionEnviarEntrega(ActionEvent event) {
-        
+        Alert alert = new Alert(AlertType.CONFIRMATION);
         if (!result) {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Resultados incorrectos");
             alert.setHeaderText(null);
-            alert.setContentText("¿Desea enviar la entrega?");
+        }
+        else{
+                DirectoryChooser directoryChooser = new DirectoryChooser();
+                String path;
+                File selectedDirectory = 
+                        directoryChooser.showDialog(stage);
+                 
+                if(selectedDirectory == null){
+                    path = "No Directory selected";
+                }else{
+                    path = selectedDirectory.getPath();
+                }
 
+            alert.setHeaderText(null);
+            alert.setContentText("¿Desea enviar la entrega?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
                 //XMLExport xml = new XMLExport(this.environment);
                 //xml.export();
-                ZipExport zip = new ZipExport(this.environment);
+                ZipExport zip = new ZipExport(this.environment, path);
                 zip.export();
+                alert.setHeaderText(null);
+                alert.setContentText("Entrega creada correctamente");
             }
-        }
-        else{    
-            //XMLExport xml = new XMLExport(this.environment);
-            //xml.export();
-                ZipExport zip = new ZipExport(this.environment);
-                zip.export();
         }
     }
 
