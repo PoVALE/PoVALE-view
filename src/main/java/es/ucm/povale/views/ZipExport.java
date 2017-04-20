@@ -23,7 +23,7 @@ public class ZipExport {
     private String zipPath;
     public ZipExport(Environment env, String path){
         this.environment = env;
-        this.zipPath = path + "/prueba.zip";
+        this.zipPath = path+".zip";
     }
     
     public void export(){

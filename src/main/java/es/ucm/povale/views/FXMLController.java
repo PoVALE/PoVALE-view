@@ -368,27 +368,28 @@ public class FXMLController implements Initializable {
             alert.setHeaderText(null);
         }
         else{
-                DirectoryChooser directoryChooser = new DirectoryChooser();
-                String path;
-                File selectedDirectory = 
-                        directoryChooser.showDialog(stage);
-                 
-                if(selectedDirectory == null){
-                    path = "No Directory selected";
-                }else{
-                    path = selectedDirectory.getPath();
-                }
+            FileChooser fileChooser = new FileChooser();
+            String path;
+            File selectedDirectory = 
+                    fileChooser.showSaveDialog(stage);
 
-            alert.setHeaderText(null);
-            alert.setContentText("¿Desea enviar la entrega?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
-                //XMLExport xml = new XMLExport(this.environment);
-                //xml.export();
-                ZipExport zip = new ZipExport(this.environment, path);
-                zip.export();
+            if(selectedDirectory == null){
                 alert.setHeaderText(null);
-                alert.setContentText("Entrega creada correctamente");
+                alert.setContentText("Directorio no existente, la entrega no fue enviada");
+            }
+            else{
+                path = selectedDirectory.getPath();
+                alert.setHeaderText(null);
+                alert.setContentText("¿Desea enviar la entrega?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK){
+                    //XMLExport xml = new XMLExport(this.environment);
+                    //xml.export();
+                    ZipExport zip = new ZipExport(this.environment, path);
+                    zip.export();
+                    alert.setHeaderText(null);
+                    alert.setContentText("Entrega creada correctamente");
+                }
             }
         }
     }
