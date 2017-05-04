@@ -27,12 +27,14 @@ public class MainApp extends Application {
         XMLParser parser = new XMLParser();
         parser.parseXMLFile(is);
 
+        //pasar esto 
         List<String> plugins = parser.getMyPlugins();
         if (!plugins.get(0).equalsIgnoreCase("")) {
             for (String a : plugins) {
                 Import plugin = new Import(a, this.environment);
             }
         }
+        ////
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/FXMLDocument.fxml"));   
         

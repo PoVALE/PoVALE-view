@@ -3,7 +3,7 @@
     
    <import>es.ucm.povaleFiles.FilesPlugin</import>
     <import>es.ucm.povale.plugin.CorePlugin</import>
-    <!--
+    
     <var>
         <label>Identificador</label>
         <name>nombre_grupo</name>
@@ -28,15 +28,14 @@
         <desc>Introduzca el número de entrega (0,3) </desc>
         <type>IntegerEntity</type>
     </var>
-    -->
+    
     <var>
         <label>Fichero de la entrega</label>
         <name>filePrincipal</name>
         <desc>Seleccione su fichero</desc>
         <type>FileEntity</type>
     </var>
-    
-    
+      
     <assertion>
         <assert>
             <exist>
