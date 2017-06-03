@@ -331,11 +331,9 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void handleButtonActionEnviar(ActionEvent event) {
-
+        completed = true;
         for (Var e : environment.getVariables()) {
-            if (paramEditors.get(e).isValid()) {
-                completed = true;
-            } else {
+            if (!paramEditors.get(e).isValid()) {
                 completed = false;
             }
         }

@@ -3,6 +3,7 @@ package es.ucm.povale.views;
 import es.ucm.povale.environment.Environment;
 import es.ucm.povale.plugin.Import;
 import es.ucm.povale.reader.XMLParser;
+import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 import javafx.application.Application;
@@ -10,6 +11,8 @@ import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 
@@ -21,9 +24,7 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         
         this.environment = new Environment(); 
-        
         InputStream is = MainApp.class.getClassLoader().getResourceAsStream("exampleFiles.xml");
-        
         XMLParser parser = new XMLParser();
         parser.parseXMLFile(is);
 
