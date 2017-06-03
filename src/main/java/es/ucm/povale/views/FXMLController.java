@@ -29,7 +29,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TreeItem;
@@ -60,7 +59,6 @@ public class FXMLController implements Initializable {
     private Map<Var, ParameterEditor<? extends Entity>> paramEditors;
     private boolean completed = false;
     private boolean result;
-
     @FXML
     private Label lblName1;
     @FXML
@@ -234,14 +232,12 @@ public class FXMLController implements Initializable {
     public void initializeRequirements() {
 
         TreeItem<String> rootNode = new TreeItem<>(myRequirements.getMessage());
-
         rootNode.setExpanded(true);
 
         for (AssertNode a : myRequirements.getChildren()) {
             TreeItem<String> assertBranch = createBranch(a);
             rootNode.getChildren().add(assertBranch);
         }
-
         tvRequisitos.setRoot(rootNode);
     }
 
@@ -254,13 +250,10 @@ public class FXMLController implements Initializable {
         for (int i = 0; i < list.size(); i++) {
             variableNames.get(i).setText(list.get(i).getLabel());
             variableDescriptions.get(i).setText(list.get(i).getDescription());
-
             ParameterEditor<? extends Entity> editor = environment.getParamEditor(list.get(i).getType()).getEditor(list.get(i).getType(), list.get(i).getParameters());
             editor.setStage(this.stage);
             panes.get(i).getChildren().add(editor.getPane());
-
             this.paramEditors.put(list.get(i), editor);
-
         }
 
         for (int j = list.size(); j < 8; j++) {
@@ -323,7 +316,6 @@ public class FXMLController implements Initializable {
             if (!result) {
                 rootNode.setGraphic(incorrectIcon);
             }
-
             tvValidacion.setRoot(rootNode);
             this.btnEnviarEntrega.setDisable(!result);
         }
@@ -337,7 +329,6 @@ public class FXMLController implements Initializable {
                 completed = false;
             }
         }
-
         if (completed == true) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Confirmación");
@@ -345,9 +336,10 @@ public class FXMLController implements Initializable {
             alert.setContentText("¡Datos enviados!");
             alert.showAndWait();
 
-            for (Var e : environment.getVariables()) {
+            environment.getVariables().stream().forEach((e) -> {
                 environment.addValue(e, paramEditors.get(e).getEntity());
-            }
+            });
+            
         } else {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
@@ -378,10 +370,8 @@ public class FXMLController implements Initializable {
                 path = selectedDirectory.getPath();
                 alert.setHeaderText(null);
                 alert.setContentText("¿Desea enviar la entrega?");
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK){
-                    //XMLExport xml = new XMLExport(this.environment);
-                    //xml.export();
+                Optional<ButtonType> resultEntrega = alert.showAndWait();
+                if (resultEntrega.get() == ButtonType.OK){
                     ZipExport zip = new ZipExport(this.environment, path);
                     zip.export();
                     alert.setHeaderText(null);
