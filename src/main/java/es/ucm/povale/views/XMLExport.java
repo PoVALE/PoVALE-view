@@ -80,12 +80,6 @@ public class XMLExport {
                 
                 Element name = document.createElement("name");
                 name.appendChild(document.createTextNode(list.get(i).getName()));
-                /*
-                Element label = document.createElement("label");
-                name.appendChild(document.createTextNode(list.get(i).getLabel()));
-                Element description = document.createElement("description");
-                name.appendChild(document.createTextNode(list.get(i).getDescription()));
-                */
                 
                 Element contents = document.createElement("contents");
                 Entity e = environment.getValue(list.get(i).getName());
@@ -101,7 +95,7 @@ public class XMLExport {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(document);
-            //StreamResult result =  new StreamResult(new File("/Users/laurahernandoserrano/Desktop/spec8.xml"));
+
             StreamResult result =  new StreamResult(new File("spec8.xml"));
             
             transformer.transform(source, result);
